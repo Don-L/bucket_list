@@ -45,6 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Map = __webpack_require__(1);
+	var BucketList = __webpack_require__(4);
+	var Country = __webpack_require__(3)
 	
 	window.onload = function () {
 	   var url = 'https://restcountries.eu/rest/v1';
@@ -55,6 +57,7 @@
 	          console.log('got the countries data');
 	           var jsonString = request.responseText;
 	           var countries = JSON.parse(jsonString);
+	           getDatabaseCountries();
 	           main(countries);
 	       }
 	   };
@@ -71,6 +74,25 @@
 	   }
 	   updateDisplay(selected);
 	};
+	
+	  var getDatabaseCountries = function() {
+	    var url = "http://localhost:3000/countries";
+	    var request = new XMLHttpRequest(); 
+	    var bucketList = new BucketList();
+	    request.onload = function(){
+	        if(request.status === 200) {
+	          console.log("Got the data");
+	          var countries = JSON.parse(request.responseText);
+	
+	        for(country of countries){
+	          bucketList.addCountry(new Country(country));
+	        }
+	        displayBucketList(bucketList);
+	        };
+	      }
+	      request.send(null);
+	  }
+	
 	   var populateSelect = function (countries) {
 	   var parent = document.querySelector('#countries');
 	   countries.forEach(function (item, index) {
@@ -166,6 +188,37 @@
 	
 	module.exports = Map;
 
+
+/***/ },
+/* 2 */,
+/* 3 */
+/***/ function(module, exports) {
+
+	var Country = function() {
+	  this.name = '';
+	}
+	
+	
+	module.exports = Country;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	var BucketList = function() {
+	  this.countries = [];
+	}
+	
+	BucketList.prototype = {
+	  addCountry: function(country) {
+	    this.countries.push(country);
+	  }
+	}
+	
+	
+	
+	
+	module.exports = BucketList;
 
 /***/ }
 /******/ ]);

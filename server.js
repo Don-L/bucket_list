@@ -27,32 +27,20 @@ app.get('/countries', function(req,res){
   });
 })
 
-// app.use(bodyParser.json());//makes http data useable in the post route below
 
-// app.get('/accounts', function(req, res) {
-//   MongoClient.connect(url, function(err, db) {
-//     var collection = db.collection('accounts');
-//     collection.find({}).toArray(function(err, docs) {
-//       res.json(docs);
-//       db.close();
-//     });
-//   });
-// });
-
-// app.post('/accounts', function(req,res){
-//   console.log('body', req.body)
-//   MongoClient.connect(url, function(err, db) {
-//     var collection = db.collection('accounts');
-//     collection.insert(
-//       { "owner": req.body.owner,
-//         "amount": req.body.amount,
-//         "type": req.body.type
-//       }
-//     )
-//     res.status(200).end()
-//     db.close();
-//   });
-// })
+app.post('/countries', function(req,res){
+  console.log('body', req.body)
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection('accounts');
+    collection.insert(
+      { 
+        "name": req.body.name
+      }
+    )
+    res.status(200).end()
+    db.close();
+  });
+})
 
 app.use(express.static('client/build'));
 
