@@ -31,7 +31,7 @@ app.get('/countries', function(req,res){
 app.post('/countries', function(req,res){
   console.log('body', req.body)
   MongoClient.connect(url, function(err, db) {
-    var collection = db.collection('accounts');
+    var collection = db.collection('countries');
     collection.insert(
       { 
         "name": req.body.name
