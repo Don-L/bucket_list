@@ -8,18 +8,28 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// var MongoClient = require('mongodb').MongoClient
+var MongoClient = require('mongodb').MongoClient
 
-// Connection URL
-// var url = 'mongodb://localhost:27017/bank';
+var url = 'mongodb://localhost:27017/bucketList';
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-// app.get('/bucket-list', function(req,res){
+app.get('/countries', function(req,res){
 
-  // Connection URL
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection('countries');
+    collection.find({}).toArray(function(err, docs) {
+      res.json(docs);
+      db.close();
+    });
+  });
+})
+
+// app.use(bodyParser.json());//makes http data useable in the post route below
+
+// app.get('/accounts', function(req, res) {
 //   MongoClient.connect(url, function(err, db) {
 //     var collection = db.collection('accounts');
 //     collection.find({}).toArray(function(err, docs) {
@@ -27,7 +37,7 @@ app.get('/', function (req, res) {
 //       db.close();
 //     });
 //   });
-// })
+// });
 
 // app.post('/accounts', function(req,res){
 //   console.log('body', req.body)
