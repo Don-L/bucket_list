@@ -1,5 +1,5 @@
-var Country = function() {
-  this.name = '';
+var Country = function(country) {
+  this.name = country.name;
 }
 
 

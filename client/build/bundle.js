@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Map = __webpack_require__(1);
-	var BucketList = __webpack_require__(4);
+	var BucketList = __webpack_require__(2);
 	var Country = __webpack_require__(3)
 	
 	window.onload = function () {
@@ -79,18 +79,30 @@
 	    var url = "http://localhost:3000/countries";
 	    var request = new XMLHttpRequest(); 
 	    var bucketList = new BucketList();
+	    request.open("GET", url);
 	    request.onload = function(){
 	        if(request.status === 200) {
 	          console.log("Got the data");
 	          var countries = JSON.parse(request.responseText);
-	
+	          console.log(countries, 'countries');
 	        for(country of countries){
 	          bucketList.addCountry(new Country(country));
 	        }
+	        console.log(bucketList.countries[0].name);
 	        displayBucketList(bucketList);
 	        };
 	      }
 	      request.send(null);
+	  }
+	
+	  var displayBucketList = function(bucketList) {
+	    var form = document.getElementById('form');
+	    var countryName = document.createElement('h4');
+	    for (country of bucketList.countries) {
+	      console.log(country["name"]);
+	      countryName.innerText = country.name;
+	      form.appendChild(countryName);
+	    }
 	  }
 	
 	   var populateSelect = function (countries) {
@@ -190,19 +202,7 @@
 
 
 /***/ },
-/* 2 */,
-/* 3 */
-/***/ function(module, exports) {
-
-	var Country = function() {
-	  this.name = '';
-	}
-	
-	
-	module.exports = Country;
-
-/***/ },
-/* 4 */
+/* 2 */
 /***/ function(module, exports) {
 
 	var BucketList = function() {
@@ -219,6 +219,17 @@
 	
 	
 	module.exports = BucketList;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	var Country = function(country) {
+	  this.name = country.name;
+	}
+	
+	
+	module.exports = Country;
 
 /***/ }
 /******/ ]);

@@ -33,18 +33,30 @@ window.onload = function () {
     var url = "http://localhost:3000/countries";
     var request = new XMLHttpRequest(); 
     var bucketList = new BucketList();
+    request.open("GET", url);
     request.onload = function(){
         if(request.status === 200) {
           console.log("Got the data");
           var countries = JSON.parse(request.responseText);
-
+          console.log(countries, 'countries');
         for(country of countries){
           bucketList.addCountry(new Country(country));
         }
+        console.log(bucketList.countries[0].name);
         displayBucketList(bucketList);
         };
       }
       request.send(null);
+  }
+
+  var displayBucketList = function(bucketList) {
+    var form = document.getElementById('form');
+    var countryName = document.createElement('h4');
+    for (country of bucketList.countries) {
+      console.log(country["name"]);
+      countryName.innerText = country.name;
+      form.appendChild(countryName);
+    }
   }
 
    var populateSelect = function (countries) {
